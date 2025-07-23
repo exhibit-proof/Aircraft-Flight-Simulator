@@ -29,7 +29,7 @@ cd aircraft-flight-simulator/Core/X3D
 
 ## 📖 Usage
 
-First go to cesium ion and create a 'default token key' to place in main.js under Cesium.Ion.defaultAccessToken
+First go to cesium ion (https://ion.cesium.com/tokens?page=1) and create a 'default token key' to place in main.js under Cesium.Ion.defaultAccessToken
 
 ```bash
 # Run the application
