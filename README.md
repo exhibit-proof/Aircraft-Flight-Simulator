@@ -23,7 +23,7 @@ This simulator takes input from a MATLAB script and displays an interactive brow
 git clone https://github.com/Idopt-Lab/aircraft-flight-simulator
 
 # Navigate to project directory
-cd aircraft-flight-simulator/Core/X3D
+cd aircraft-flight-simulator/Core/CesiumJS
 
 ```
 

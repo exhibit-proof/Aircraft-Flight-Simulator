@@ -1,48 +1,50 @@
-Cesium.Ion.defaultAccessToken = 'ENTER YOUR TOKEN HERE';
+import { step, X3DWorld, Aircraft } from './simulator.js';
 
-const viewer = new Cesium.Viewer('cesiumContainer', {
-  shouldAnimate: true
-});
-const ws = new WebSocket("ws://localhost:8765/");
-const aircraftEntity = viewer.entities.add({
-  name: "Buffalonius",
-  model: {
-    uri: "Buffalonius.glb",  // or your own .gltf/.glb model
-    scale: 1.0
-  }
-});
-
-async function loadAircraftData() {
-  ws.onmessage = async (event) => {
-    try {
-      const text = event.data instanceof Blob ? await event.data.text() : event.data;
-      const data = JSON.parse(text);
-
-      const lat = parseFloat(data["latitude"]);
-      const lon = parseFloat(data["longitude"]);
-      const alt = parseFloat(data["altitude"]);
-
-      const roll = parseFloat(data["phi"]);
-      const pitch = parseFloat(data["theta"]);
-      const yaw = parseFloat(data["psi"]);
-
-      console.log("---- Aircraft FDM Data ----");
-      for (const [key, value] of Object.entries(data)) {
-        console.log(`${key}: ${Array.isArray(value) ? value[0] : value}`);
-      }
-      console.log("--------------------------");
-      
-      aircraftEntity.position = Cesium.Cartesian3.fromRadians(lon, lat, alt);
-      aircraftEntity.orientation = Cesium.Transforms.headingPitchRollQuaternion(
-        Cesium.Cartesian3.fromRadians(lon, lat, alt),
-        new Cesium.HeadingPitchRoll(yaw, pitch, roll)
-      );
-
-      viewer.trackedEntity = aircraftEntity;
-    } catch (error) {
-      console.error("Failed to process WebSocket message:", error);
-    }
-  };  
+function showMessage(message) {
+  setTimeout(() => alert(message), 50);
 }
 
+<<<<<<< HEAD
 setInterval(loadAircraftData, 100); // update every 100 ms
+=======
+// handle incoming WS messages
+function receiveUpdatedStates(aircraft, websocket) {
+  console.log(aircraft);
+  websocket.addEventListener("message", ({ data }) => {
+    const event = JSON.parse(data);
+        step(
+          aircraft,
+          [event.axisY, event.axisZ, event.axisX],
+          -event.theta,
+          [event.bodyX, event.bodyY, event.bodyZ]
+        );
+
+  });
+}
+
+// when the user clicks on any DEF-named X3D node, send its name
+function sendUserInputs(aircraft) {
+  console.log(aircraft);
+  ws.send(JSON.stringify({"axisX": aircraft.axisX, "axisY": aircraft.axisY, "axisZ": aircraft.axisZ, "theta": aircraft.theta, "bodyX": aircraft.bodyX, "bodyY": aircraft.bodyY, "bodyZ": aircraft.bodyZ }));
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  //const x3dWorld = new X3DWorld("x3dElement");
+  const aircraft = new Aircraft("Buffalonius");
+  const ws = new WebSocket("ws://localhost:8765/");
+  ws.onopen = () => {
+    console.log("WebSocket connected.");
+    receiveUpdatedStates(aircraft, ws);
+    //document.getElementById("BuffaloniusTouchSensor").addEventListener("click", sendUserInputs(aircraft), false);
+  };
+
+  ws.onerror = (err) => {
+    console.error("WebSocket error:", err);
+    showMessage("Failed to connect to the server.");
+  };
+
+  ws.onclose = () => {
+    console.warn("WebSocket connection closed.");
+  };
+});
+>>>>>>> 8530830 (Added X3D Example)
