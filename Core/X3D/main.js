@@ -4,9 +4,6 @@ function showMessage(message) {
   setTimeout(() => alert(message), 50);
 }
 
-<<<<<<< HEAD
-setInterval(loadAircraftData, 100); // update every 100 ms
-=======
 // handle incoming WS messages
 function receiveUpdatedStates(aircraft, websocket) {
   console.log(aircraft);
@@ -47,4 +44,3 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("WebSocket connection closed.");
   };
 });
->>>>>>> 8530830 (Added X3D Example)
