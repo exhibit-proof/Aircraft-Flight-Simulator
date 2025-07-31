@@ -12,6 +12,7 @@ function loadToken() {
 }
 
 const token = loadToken();
+console.log(token)
 Cesium.Ion.defaultAccessToken = token;
 
 const viewer = new Cesium.Viewer('cesiumContainer', {
