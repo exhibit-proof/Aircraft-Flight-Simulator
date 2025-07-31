@@ -1,19 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-
-function loadToken() {
-    const configPath = path.join(__dirname, 'cesium_token.json');
-    const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-    if(config.CESIUM_ION_TOKEN == "Enter Token Here") {
-      console.error("Please set your Cesium Ion token in the config file.");
-      process.exit(1);
-    }
-    return config.CESIUM_ION_TOKEN;
-}
-
-const token = loadToken();
-console.log(token)
-Cesium.Ion.defaultAccessToken = token;
+Cesium.Ion.defaultAccessToken = "Enter_Token_Here";
 
 const viewer = new Cesium.Viewer('cesiumContainer', {
   shouldAnimate: true
