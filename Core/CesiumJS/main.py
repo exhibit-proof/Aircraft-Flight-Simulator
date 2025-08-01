@@ -77,7 +77,7 @@ def handler(websocket):
             outgoing_data = ws_outgoing.get_nowait()
             #print("Type being sent:", type(outgoing_data))
             websocket.send(json.dumps(outgoing_data))
-            print(json.dumps(outgoing_data))
+            #print(json.dumps(outgoing_data))
         except queue.Empty:
             pass
     #print("close websocket server")

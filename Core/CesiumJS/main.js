@@ -7,8 +7,8 @@ const ws = new WebSocket("ws://localhost:8765/");
 const aircraftEntity = viewer.entities.add({
   name: "Buffalonius",
   model: {
-    uri: "Buffalonius.glb",  // or your own .gltf/.glb model
-    scale: 1.0
+    uri: "helicopter_model.glb",  // or your own .gltf/.glb model
+    scale: 0.5
   }
 });
 
